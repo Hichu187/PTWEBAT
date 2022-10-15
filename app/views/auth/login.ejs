@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="page">
+        <div class="infor">
+            <div class="Mname">Đàm Trung Long - AT150235</div>
+        </div>
+        <div class="login-form">
+            <div class="left">
+                <h1>Sign in</h1>
+                <div class="note">Tôi biết mọi người có thể không đọc nhưng tôi cứ thích viết vào cho đẹp đấy lêu lêu..<br>-----------------------------------</div>
+            </div>
+            
+            <div class="right">
+                <div class="form">
+                    <form action="/login" method="POST">
+                        <input type="text" name="email" placeholder="Email" 
+                            <% if (typeof email != "undefined" && email) { %> value="<%= email %>"<% } %>  required>
+                        <input type="password" name="password" placeholder="Password" 
+                            <% if (typeof password != "undefined" && password) { %> value="<%= password %>"<% } %> required>
+                        
+                        <div class="change">
+                            <a href="/register" class="regist">Đăng ký</a> <a href="/password/reset" class="forgotpass">Quên mật khẩu</a>
+                        </div>
+                        
+                        
+                        <% if (typeof conflictError != "undefined" && conflictError) { %>
+                            <div class="text-danger"><%= conflictError %></div>
+                        <% } %>
+                        <input type="submit" value="Đăng nhập">
+                    </form>
+                </div>          
+            </div>     
+        </div>
+    </div>
+    
+</body>
+</html>
