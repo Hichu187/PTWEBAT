@@ -7,6 +7,8 @@ const User = function(user){
     this.email = user.email;
     this.phone = user.phone;
     this.address = user.address;
+    this.isForgot = user.isForgot;
+    this.role = user.role;
 };
 
 User.create = (newUser, result) => {
@@ -18,6 +20,21 @@ User.create = (newUser, result) => {
         }
         console.log("created user: ", { id: res.insertId, ...newUser });
         result(null, { id: res.insertId, ...newUser });
+    });
+};
+
+
+
+User.showAll = (result) => {
+    let query = "SELECT * FROM users";
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("todo: ", res);
+        result(null, res);
     });
 };
 
@@ -86,5 +103,45 @@ User.resetPassword = (email, password, result) => {
         }
     );
 };
+
+User.updateisForgotPasswordStatus1 = (email, result) => {
+    sql.query(
+        "UPDATE users SET isForgot = 1 WHERE email = ?",
+        [email],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { email: email });
+        }
+    );
+};
+
+User.updateisForgotPasswordStatus0 = (email, result) => {
+    sql.query(
+        "UPDATE users SET isForgot = 0 WHERE email = ?",
+        [email],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { email: email });
+        }
+    );
+};
+
+
 
 module.exports = User;
